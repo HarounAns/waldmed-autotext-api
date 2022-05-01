@@ -1,0 +1,20 @@
+{
+  "name": "waldmed_autotext_api",
+  "version": "1.0.0",
+  "description": "Waldmed automatic texting API",
+  "main": "handler.js",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "jwt-decode": "^3.1.2",
+    "twilio": "^3.76.1"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^4.0.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "Haroun Ansari",
+  "license": "ISC"
+}

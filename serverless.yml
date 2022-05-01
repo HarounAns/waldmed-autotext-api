@@ -1,0 +1,43 @@
+service: waldmed-autotext-api
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  environment:
+    TWILIO_ACCOUNT_SID: ${env:TWILIO_ACCOUNT_SID}
+    TWILIO_AUTH_TOKEN: ${env:TWILIO_AUTH_TOKEN}
+    TWILIO_BOT_NUMBER: ${env:TWILIO_BOT_NUMBER}
+  httpApi:
+    cors: true
+    authorizers:
+      serviceAuthorizer:
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_4dgcvnN5O
+        audience: 6m72lg12pan4h9oof605sfj0cr
+
+functions:
+  autotextPatients:
+    handler: handler.autotextPatients
+    events:
+      - httpApi:
+            method: POST
+            path: /
+            authorizer: serviceAuthorizer
+  listTwilioMessages:
+    handler: handler.listTwilioMessages
+    events:
+      - httpApi:
+            method: GET
+            path: /twilio_messages
+            authorizer: serviceAuthorizer
+
+plugins:
+  - serverless-dotenv-plugin
+
+custom:
+  dotenv:
+      exclude:
+        - TEST_JWT
+        - TEST_PHONE_NUMBER
